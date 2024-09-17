@@ -14,14 +14,6 @@ class App {
     {
         $csvFile = "public/inputs/2.csv"; // Replace with your CSV file path
         $csvDataSource = new CsvDataSource($csvFile);
-        $patientData = $csvDataSource->readData();
-
-        print_r($patientData);
-
-        // Usage:
-        $patients = [
-            // ... your patient data
-        ];
 
         $patientWriter = DataWriterFactory::createWriter('patient');
         $patientWriter->writeData($csvDataSource, 'public/outputs/2.csv');

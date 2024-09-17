@@ -1,6 +1,6 @@
 <?php
 
-use Castor\InputDataSources\DataSourceInterface;
+use Castor\DataWriters;
 
 /*
  * Factory Design Pattern
