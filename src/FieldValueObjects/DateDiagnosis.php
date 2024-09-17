@@ -1,5 +1,7 @@
 <?php
 
+namespace Castor\FieldValueObjects;
+
 class DateDiagnosis implements DataTransformationInterface
 {
     private string $value;

@@ -1,21 +1,23 @@
 <?php
 
+namespace Castor\FieldValueObjects;
+
 class Length implements DataTransformationInterface
 {
 
-    private int $value;
+    private mixed $value;
 
-    public function __construct(float $value)
+    public function __construct(mixed $value)
     {
         $this->value = $value;
     }
 
-    public function transform(): int
+    public function transform() : int
     {
-        return (int)floor($this->value);
+        return (int) ($this->value * 100);
     }
 
-    public function getValue(): int
+    public function getValue(): mixed
     {
         return $this->value;
     }

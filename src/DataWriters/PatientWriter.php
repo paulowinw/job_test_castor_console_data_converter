@@ -3,7 +3,11 @@
 namespace Castor\DataWriters;
 
 use Castor\InputDataSources\DataSourceInterface;
-use DataWriterInterface;
+use Castor\FieldValueObjects\Gender;
+use Castor\FieldValueObjects\Length;
+use Castor\FieldValueObjects\Pregnant;
+use Castor\FieldValueObjects\MonthsPregnant;
+use Castor\FieldValueObjects\DateDiagnosis;
 
 class PatientWriter implements DataWriterInterface
 {
@@ -17,12 +21,12 @@ class PatientWriter implements DataWriterInterface
         'Months Pregnant' => 'pregnancy_duration_weeks',
         'Date of diagnosis' => 'date_diagnosis',
     ];
-    private array $columnsValueObjectsClasses = [
-        'Gender' => 'Gender',
-        'Length' => 'Length',
-        'Pregnant' => 'Pregnant',
-        'Months Pregnant' => 'MonthsPregnant',
-        'Date of diagnosis' => 'DateDiagnosis',
+    private array $valueObjectsClasses = [
+        'Gender' => Gender::class,
+        'Length' => Length::class,
+        'Pregnant' => Pregnant::class,
+        'Months Pregnant' => MonthsPregnant::class,
+        'Date of diagnosis' => DateDiagnosis::class,
     ];
     public function writeData(DataSourceInterface $dataSource, string $filename) : void
     {
@@ -35,12 +39,17 @@ class PatientWriter implements DataWriterInterface
         foreach ($dataSource->readData() as $patient) {
             $transformedData = [];
             foreach ($this->columns as $columnName => $targetColumnName) {
-                $value = $patient[$columnName];
-                $strategy = new $this->columnsValueObjectsClasses[$columnName]($value) ?? null;
-                if ($strategy) {
-                    $value = $strategy->transform($value);
+                if (isset($patient[$columnName])) {
+                    $value = $patient[$columnName];
+                    if (isset($this->valueObjectsClasses[$columnName])) {
+                        $strategy = new $this->valueObjectsClasses[$columnName]($value) ?? null;
+                        $transformedData[$targetColumnName] = $strategy->transform($value);
+                    } else {
+                        $transformedData[$targetColumnName] = $value;
+                    }
+                } else {
+                    $transformedData[$targetColumnName] = '';
                 }
-                $transformedData[$targetColumnName] = $value;
             }
             fputcsv($fp, array_values($transformedData));
         }

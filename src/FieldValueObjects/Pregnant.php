@@ -1,5 +1,7 @@
 <?php
 
+namespace Castor\FieldValueObjects;
+
 class Pregnant implements DataTransformationInterface
 {
     private string $value;

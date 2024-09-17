@@ -1,5 +1,7 @@
 <?php
 
+namespace Castor\FieldValueObjects;
+
 /*
  * Strategy Design Pattern
  *

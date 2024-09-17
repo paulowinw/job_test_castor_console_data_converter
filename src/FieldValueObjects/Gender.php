@@ -1,4 +1,7 @@
 <?php
+
+namespace Castor\FieldValueObjects;
+
 class Gender implements DataTransformationInterface
 {
     private string $value;

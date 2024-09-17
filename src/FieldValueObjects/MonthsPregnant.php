@@ -1,13 +1,15 @@
 <?php
 
+namespace Castor\FieldValueObjects;
+
 class MonthsPregnant implements DataTransformationInterface
 {
 
     private int $months;
 
-    public function __construct(int $months)
+    public function __construct(mixed $months)
     {
-        $this->months = $months;
+        $this->months = (int) $months;
     }
 
     public function getValue(): int
