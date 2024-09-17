@@ -29,15 +29,20 @@ The project employs a combination of design patterns for robust data handling:
 
 ## Getting Started
 
-1. **Prerequisites:** Ensure you have PHP installed on your system.
+1. **Prerequisites:** Ensure you have PHP installed on your system and composer.
+
 2. **Clone the Repository:**
    ```bash
-   git clone [invalid URL removed]
+   git clone https://github.com/paulowinw/job_test_castor_console_data_converter
 
-3. **Navigate to the Project Directory:**
+3. **Run composer install:**
    ```bash
-   cd your-repository-name
+   composer install
 
-3. **Run the project:**
+4. **Navigate to the Project Directory:**
+   ```bash
+   cd <your-repository-name>
+
+5. **Run the project:**
    ```bash
    php index.php
