@@ -9,6 +9,7 @@ The following folder structure promotes organization and clarity:
 * **DataWriters**: This directory houses classes responsible for writing data in various formats, such as CSV.
 * **FieldValueObjects**: Here, you'll find classes dedicated to representing data fields with validation and transformation logic.
 * **InputDateSources**: This folder contains classes tasked with reading data from diverse sources like JSON, CSV, and RSS.
+* **Commands**: This folder contains classes the commands that can be used on the console, it uses symfony.
 
 ## Design Patterns
 
