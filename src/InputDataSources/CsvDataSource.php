@@ -13,6 +13,35 @@ class CsvDataSource implements DataSourceInterface
     {
         $data = [];
         $header = null;
+        $columnData = [];
+
+        if (($handle = fopen($this->filename, "r")) !== FALSE) {
+            while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if (!$header) {
+                    $header = explode(';', $row[0]);
+                } else {
+                    $row = explode(';', $row[0]);
+                    $rowFormatted = [];
+                    foreach ($row as $key => $value) {
+                        $rowFormatted[$header[$key]] = $value;
+                        $columnData[$header[$key]][] = $value;
+                    }
+                    $data[] = $rowFormatted;
+                }
+            }
+            fclose($handle);
+        }
+
+        var_dump($columnData);exit();
+
+        // Return the array with column names and their values
+        return $columnData;
+    }
+
+    public function getDataOrderedByLine(): array
+    {
+        $data = [];
+        $header = null;
 
         if (($handle = fopen($this->filename, "r")) !== FALSE) {
             while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
@@ -29,7 +58,6 @@ class CsvDataSource implements DataSourceInterface
             }
             fclose($handle);
         }
-
         return $data;
 
     }

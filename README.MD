@@ -43,6 +43,6 @@ The project employs a combination of design patterns for robust data handling:
    ```bash
    cd <your-repository-name>
 
-5. **Run the project:**
+5. **Run the project with the main command:**
    ```bash
-   php index.php
+   php index.php prepare:data
