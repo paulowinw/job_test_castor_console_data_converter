@@ -28,6 +28,10 @@ The project employs a combination of design patterns for robust data handling:
 
 * FieldValueObjects embody value objects, a well-known concept in object-oriented programming. These classes encapsulate data fields and their associated behavior, such as validation and formatting. This ensures data integrity and reduces the risk of errors.
 
+**Commands (Commands)**
+
+* Commands in Symfony are a powerful tool for automating tasks and performing maintenance operations on your application. They are essentially executable scripts that can be run from the command line using the bin/console command.
+
 ## Getting Started
 
 1. **Prerequisites:** Ensure you have PHP installed on your system and composer.
