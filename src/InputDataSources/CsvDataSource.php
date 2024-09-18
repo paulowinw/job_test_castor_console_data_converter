@@ -32,8 +32,6 @@ class CsvDataSource implements DataSourceInterface
             fclose($handle);
         }
 
-        var_dump($columnData);exit();
-
         // Return the array with column names and their values
         return $columnData;
     }

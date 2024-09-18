@@ -14,6 +14,7 @@ class PrepareDataForDatabase extends Command
     protected static $defaultName = 'prepare:data';
 
     private const OUTPUT_DIR = 'public/outputs/';
+    private const DEFAULT_FILE = "public/inputs/3.csv";
 
     protected function configure()
     {
@@ -27,29 +28,50 @@ class PrepareDataForDatabase extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $csvFile = $input->getArgument('csvFile');
-
         if (empty($csvFile)) {
             $csvFile = $this->getCSVPathByConsoleInteraction();
-
-            $csvFile = "public/inputs/3.csv";
+            if (empty($csvFile)) {
+                $csvFile = self::DEFAULT_FILE;
+            }
         }
 
         $filename = basename($csvFile);
         $csvDataSource = new CsvDataSource($csvFile);
 
-        foreach ($csvDataSource->readData() as $patient) {
-
+        $dataWithConfig = [];
+        foreach ($csvDataSource->readData() as $key => $values) {
+            $this->printArrayAsTable($key, $values);
+            $targetColumn = $this->getTargetColumnNameByConsoleInteraction();
+            $transformation = $this->getTransformationByConsoleInteraction();
+            $dataWithConfig[$targetColumn] = [
+                'values' => $values,
+                'transformation' => $transformation,
+            ];
         }
 
         $patientWriter = DataWriterFactory::createWriter('patient');
         $patientWriter->writeData($csvDataSource, self::OUTPUT_DIR . $filename);
 
-        // Encapsulate console interactions in a separate class
-//        $consoleInteractions = new ConsoleInteractions();
-//        $consoleInteractions->getTargetColumnName();
-//        $consoleInteractions->getTransformation();
-
         return Command::SUCCESS;
+    }
+
+
+
+    public function printArrayAsTable(string $header, array $values): void
+    {
+        // Count the elements in the  array key
+        $count = strlen($header);
+
+        // Print the separator row
+        print("Current Column:\n\n");
+        print("$header\n");
+        print(str_repeat("-", $count) . "\n");
+
+        // Print the data rows
+        foreach ($values as $value) {
+            print("$value\n");
+        }
+        print("\n");
     }
 
     public function getCSVPathByConsoleInteraction()
@@ -57,6 +79,7 @@ class PrepareDataForDatabase extends Command
         // Prompt the user for the target column name
         echo "Enter the Path for the CSV File: (default: public/inputs/3.csv)\n";
         $csvPath = readline();
+        echo "\n";
 
         // Return the target column name
         return $csvPath;
@@ -67,6 +90,7 @@ class PrepareDataForDatabase extends Command
         // Prompt the user for the target column name
         echo "Enter the target column name:\n";
         $targetColumnName = readline();
+        echo "\n";
 
         // Return the target column name
         return $targetColumnName;
@@ -75,16 +99,18 @@ class PrepareDataForDatabase extends Command
     public function getTransformationByConsoleInteraction()
     {
         // Prompt the user for the transformation
-        echo "
-            Enter the transformation (e.g., uppercase, lowercase, reverse): \n
-            1. Female or male to number \n
-            2. Height to cms \n
-            3. Remove dots from number \n
-            4. Yes or no to number \n
-            5. Convert months to weeks \n
-            6. Date to database format \n
-        ";
+
+        echo "Enter the transformation to be applied to the column, options:\n";
+        echo "1. Female or male to number\n";
+        echo "2. Height to cms\n";
+        echo "3. Remove dots from number\n";
+        echo "4. Yes or no to number\n";
+        echo "5. Convert months to weeks\n";
+        echo "6. Date to database format\n\n";
+        echo "7. N/A \n\n";
+        echo "Enter the number of the transformation that you want:\n";
         $transformation = readline();
+        echo "\n";
 
         // Return the transformation
         return $transformation;
