@@ -19,14 +19,14 @@ The project employs a combination of design patterns for robust data handling:
 
 * Data writers are designed using the factory pattern. This allows for creation of specific writer instances based on the type of data (e.g., `DoctorWriter`, `PatientWriter`). This promotes flexibility and reusability, enabling you to create new writers for different data formats with minimal code changes.
 
-**Strategy Pattern (FieldValueObjects and InputDataSources)**
+**Strategy Pattern (ConversionValueObjects and InputDataSources)**
 
-* **FieldValueObjects:** These classes follow the strategy pattern with a `transform` method. This method facilitates data transformation to the desired format, ensuring consistency and allowing for customization based on specific data field requirements. The strategy pattern enhances flexibility and separation of concerns.
+* **ConversionValueObjects:** These classes follow the strategy pattern with a `transform` method. This method facilitates data transformation to the desired format, ensuring consistency and allowing for customization based on specific data field requirements. The strategy pattern enhances flexibility and separation of concerns.
 * **InputDataSources:** These classes also leverage the strategy pattern through a `readData` method. This method varies depending on the data source format (JSON, CSV, RSS). This pattern offers modularity and makes it easy to add support for new data sources by implementing the `readData` method for each new format.
 
-**Value Objects (FieldValueObjects)**
+**Value Objects (ConversionValueObjects)**
 
-* FieldValueObjects embody value objects, a well-known concept in object-oriented programming. These classes encapsulate data fields and their associated behavior, such as validation and formatting. This ensures data integrity and reduces the risk of errors.
+* ConversionValueObjects embody value objects, a well-known concept in object-oriented programming. These classes encapsulate data fields and their associated behavior, such as validation and formatting. This ensures data integrity and reduces the risk of errors.
 
 **Commands (Commands)**
 
