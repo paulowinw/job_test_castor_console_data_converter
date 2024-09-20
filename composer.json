@@ -6,6 +6,7 @@
   },
   "require": {
     "symfony/console": "^7.1",
+    "phpunit/phpunit": "^10.0",
     "ext-readline": "*"
   }
 }
