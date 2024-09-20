@@ -1,8 +1,8 @@
 <?php
 
-namespace Castor\FieldValueObjects;
+namespace Castor\ConversionValueObjects;
 
-class MonthsPregnant implements DataTransformationInterface
+class YesNoToNumber implements DataTransformationInterface
 {
 
     private int $months;

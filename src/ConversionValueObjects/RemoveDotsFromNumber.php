@@ -1,8 +1,8 @@
 <?php
 
-namespace Castor\FieldValueObjects;
+namespace Castor\ConversionValueObjects;
 
-class Length implements DataTransformationInterface
+class RemoveDotsFromNumber implements DataTransformationInterface
 {
 
     private mixed $value;

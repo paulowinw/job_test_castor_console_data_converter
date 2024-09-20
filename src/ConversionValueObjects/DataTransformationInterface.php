@@ -1,6 +1,6 @@
 <?php
 
-namespace Castor\FieldValueObjects;
+namespace Castor\ConversionValueObjects;
 
 /*
  * Strategy Design Pattern

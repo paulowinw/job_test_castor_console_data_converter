@@ -1,8 +1,8 @@
 <?php
 
-namespace Castor\FieldValueObjects;
+namespace Castor\ConversionValueObjects;
 
-class DateDiagnosis implements DataTransformationInterface
+class DateToDatabaseFormat implements DataTransformationInterface
 {
     private string $value;
 

@@ -9,4 +9,6 @@ namespace Castor\InputDataSources;
  */
 interface DataSourceInterface {
     public function readData(): array;
+    public function configNewColumnNames(array $columnNames): array;
+    public function getDataOrderedByLine(): array;
 }

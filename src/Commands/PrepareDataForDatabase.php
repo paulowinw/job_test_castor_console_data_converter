@@ -2,12 +2,12 @@
 
 namespace Castor\Commands;
 
-use Castor\DataWriters\DataWriterFactory;
-use Castor\InputDataSources\CsvDataSource;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Castor\DataWriters\DataWriterFactory;
+use Castor\InputDataSources\CsvDataSource;
 
 class PrepareDataForDatabase extends Command
 {
@@ -38,19 +38,27 @@ class PrepareDataForDatabase extends Command
         $filename = basename($csvFile);
         $csvDataSource = new CsvDataSource($csvFile);
 
-        $dataWithConfig = [];
+        $transformationConfig = [];
+        $newColumnNames = [];
         foreach ($csvDataSource->readData() as $key => $values) {
             $this->printArrayAsTable($key, $values);
             $targetColumn = $this->getTargetColumnNameByConsoleInteraction();
             $transformation = $this->getTransformationByConsoleInteraction();
-            $dataWithConfig[$targetColumn] = [
-                'values' => $values,
-                'transformation' => $transformation,
-            ];
+
+            if (empty($targetColumn)) {
+                $transformationConfig[$key] = $transformation;
+            } else {
+                $newColumnNames[$key] = $targetColumn;
+                $transformationConfig[$targetColumn] = $transformation;
+            }
+        }
+
+        if (!empty($newColumnNames)) {
+            $csvDataSource->configNewColumnNames($newColumnNames);
         }
 
         $patientWriter = DataWriterFactory::createWriter('patient');
-        $patientWriter->writeData($csvDataSource, self::OUTPUT_DIR . $filename);
+        $patientWriter->writeData($csvDataSource, self::OUTPUT_DIR . $filename, $transformationConfig);
 
         return Command::SUCCESS;
     }
@@ -101,19 +109,18 @@ class PrepareDataForDatabase extends Command
         // Prompt the user for the transformation
 
         echo "Enter the transformation to be applied to the column, options:\n";
-        echo "1. Female or male to number\n";
-        echo "2. Height to cms\n";
-        echo "3. Remove dots from number\n";
-        echo "4. Yes or no to number\n";
-        echo "5. Convert months to weeks\n";
-        echo "6. Date to database format\n\n";
-        echo "7. N/A \n\n";
+        echo "1. ".CsvDataSource::CONVERSION_OPTION_1."\n";
+        echo "2. ".CsvDataSource::CONVERSION_OPTION_2."\n";
+        echo "3. ".CsvDataSource::CONVERSION_OPTION_3."\n";
+        echo "4. ".CsvDataSource::CONVERSION_OPTION_4."\n";
+        echo "5. ".CsvDataSource::CONVERSION_OPTION_5."\n";
+        echo "6. ".CsvDataSource::CONVERSION_OPTION_NULL."\n\n";
         echo "Enter the number of the transformation that you want:\n";
         $transformation = readline();
         echo "\n";
 
         // Return the transformation
-        return $transformation;
+        return ($transformation == 6) ? null : $transformation;
     }
 
 }
