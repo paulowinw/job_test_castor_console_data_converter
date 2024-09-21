@@ -7,9 +7,9 @@ class ConvertMonthsToWeeks implements DataTransformationInterface
 
     private int $months;
 
-    public function __construct(mixed $months)
+    public function __construct(int $months)
     {
-        $this->months = (int) $months;
+        $this->months = $months;
     }
 
     public function getValue(): int
