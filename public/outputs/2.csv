@@ -1,0 +1,4 @@
+record_id,name,gender,height_cm,weight_kg,pregnant,pregnancy_duration_weeks,date_diagnosis
+,Johnson,2,169,64,1,32,2016-07-21
+,Smith,1,169,89,0,0,2015-02-04
+,Lewis,2,155,54,0,0,2016-12-21
