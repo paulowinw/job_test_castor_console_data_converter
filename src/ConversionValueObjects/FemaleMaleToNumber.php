@@ -2,6 +2,8 @@
 
 namespace Castor\ConversionValueObjects;
 
+use InvalidArgumentException;
+
 class FemaleMaleToNumber implements DataTransformationInterface
 {
     private string $value;
